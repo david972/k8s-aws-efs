@@ -81,10 +81,10 @@ func NewProvisioner() (string, controller.Provisioner, error) {
 		return "", nil, fmt.Errorf("environment variable AWS_SUBNETS not found")
 	}
 
-	// AWS_SECURITY_GROUP assigns a VPC security group to the mount points.
+	// AWS_SECURITY_GROUPS assigns VPC security groups to the mount points.
 	// http://docs.aws.amazon.com/efs/latest/ug/accessing-fs.html
-	security := os.Getenv("AWS_SECURITY_GROUP")
-	if security == "" {
+	securities := os.Getenv("AWS_SECURITY_GROUPS")
+	if securities == "" {
 		return "", nil, fmt.Errorf("environment variable AWS_SECURITY_GROUP not found")
 	}
 
@@ -96,11 +96,11 @@ func NewProvisioner() (string, controller.Provisioner, error) {
 	}
 
 	provisioner := &efsProvisioner{
-		region:        region,
-		securityGroup: security,
-		subnets:       strings.Split(subnets, ","),
-		performance:   performance,
-		format:        format,
+		region:         region,
+		securityGroups: strings.Split(securities, ","),
+		subnets:        strings.Split(subnets, ","),
+		performance:    performance,
+		format:         format,
 	}
 
 	return apiVersion, provisioner, nil

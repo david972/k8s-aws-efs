@@ -6,7 +6,7 @@ import (
 )
 
 // CreateMount creates EFS a mount point.
-func CreateMount(svc *efs.EFS, id, subnet, security string) (*efs.MountTargetDescription, error) {
+func CreateMount(svc *efs.EFS, id, subnet, securities) (*efs.MountTargetDescription, error) {
 	// Check if a mount exists in this subnet.
 	mnts, err := svc.DescribeMountTargets(&efs.DescribeMountTargetsInput{
 		FileSystemId: aws.String(id),
@@ -24,10 +24,8 @@ func CreateMount(svc *efs.EFS, id, subnet, security string) (*efs.MountTargetDes
 
 	// Create one if it does not exist.
 	return svc.CreateMountTarget(&efs.CreateMountTargetInput{
-		FileSystemId: aws.String(id),
-		SubnetId:     aws.String(subnet),
-		SecurityGroups: []*string{
-			aws.String(security),
-		},
+		FileSystemId:   aws.String(id),
+		SubnetId:       aws.String(subnet),
+		SecurityGroups: securities,
 	})
 }

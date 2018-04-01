@@ -27,7 +27,7 @@ func (p *efsProvisioner) Provision(options controller.VolumeOptions) (*v1.Persis
 
 	glog.Infof("Provisioning filesystem: %s", name)
 
-	id, err := efsutils.Create(p.region, name, p.subnets, p.securityGroup, p.performance)
+	id, err := efsutils.Create(p.region, name, p.subnets, p.securityGroups, p.performance)
 	if err != nil {
 		return nil, fmt.Errorf("failed to provision filesystem: %s", err)
 	}
